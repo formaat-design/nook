@@ -1,0 +1,22 @@
+{
+  "name": "root",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "app:start": "yarn --cwd ./packages/app run dev",
+    "build": "yarn --cwd ./packages/nook run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5",
+    "lerna": "7.4.2"
+  }
+}

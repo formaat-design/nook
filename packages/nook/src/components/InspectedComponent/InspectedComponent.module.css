@@ -1,0 +1,25 @@
+.el {
+  display: contents;
+}
+
+.selection {
+  --nook-selection-color: #5a58f2;
+
+  box-shadow: 0 0 0 3px var(--nook-selection-color) inset;
+  position: absolute;
+  pointer-events: none;
+  border-radius: 4px;
+}
+
+.name {
+  position: absolute;
+  inset-block-start: -3px;
+  inset-inline-start: 0;
+  transform: translateY(-100%);
+  background: var(--nook-selection-color);
+  padding: 6px;
+  border-radius: 4px;
+  z-index: 10;
+  font-size: 12px;
+  line-height: 12px;
+}

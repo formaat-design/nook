@@ -1,0 +1,8 @@
+{
+  "src/components/Logo.tsx": [
+    "Logo"
+  ],
+  "src/components/Button.tsx": [
+    "Button"
+  ]
+}

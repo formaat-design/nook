@@ -6,14 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "nook:watch": "node nook.config.js"
   },
   "dependencies": {
     "next": "14.0.0",
+    "nook": "0.0.1",
+    "nook-agent": "0.0.1",
     "react": "^18",
     "react-dom": "^18",
-    "reshaped": "2.5.3",
-    "nook": "0.0.1"
+    "reshaped": "2.5.3"
   },
   "devDependencies": {
     "@types/node": "^20",

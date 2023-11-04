@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Widget from "../Widget";
 import type * as T from "./NookProvider.types";
 
 const Context = React.createContext({
@@ -31,6 +32,7 @@ export const NookProvider = (props: T.Props) => {
   return (
     <Context.Provider value={{ components, register, unregister }}>
       {children}
+      <Widget />
     </Context.Provider>
   );
 };

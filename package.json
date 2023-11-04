@@ -6,8 +6,8 @@
     "packages/*"
   ],
   "scripts": {
-    "app:start": "yarn --cwd ./packages/app run dev",
-    "build": "yarn --cwd ./packages/nook run build"
+    "build": "lerna run build --no-private",
+    "dev": "open \"http://localhost:3000\" && lerna run dev"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -17,6 +17,8 @@
     "eslint-config-next": "14.0.0",
     "prettier": "^3.0.3",
     "typescript": "^5",
-    "lerna": "7.4.2"
+    "lerna": "7.4.2",
+    "chokidar-cli": "3.0.0",
+    "concurrently": "8.2.2"
   }
 }

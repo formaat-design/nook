@@ -5,7 +5,12 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc && rsync -a src/* dist/ --exclude='*.tsx' --exclude='*.ts'"
+    "build:css": "rsync -a src/* dist/ --exclude='*.tsx' --exclude='*.ts'",
+    "watch:css": "chokidar \"src/**/*.css\" -c \"yarn build:css\" --initial true",
+    "build:js": "tsc",
+    "watch:js": "tsc -w",
+    "build": "tsc && rsync -a src/* dist/ --exclude='*.tsx' --exclude='*.ts'",
+    "dev": "concurrently \"yarn watch:css\" \"yarn watch:js\""
   },
   "peerDependencies": {
     "react": "^18",

@@ -2,5 +2,5 @@
   position: fixed;
   inset-block-end: var(--rs-unit-x2);
   inset-inline-start: var(--rs-unit-x2);
-  width: 200px;
+  width: max-content;
 }

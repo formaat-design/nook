@@ -13,13 +13,16 @@ const useSetParentDisabled = () => React.useContext(Context);
 const InspectedComponent = (props: T.Props) => {
   const { children, name, id } = props;
   const [disabled, setDisabled] = React.useState(false);
-  const { register, unregister } = useNook();
+  const { register, unregister, mode, setMode } = useNook();
   const setParentDisabled = useSetParentDisabled();
   const [childCount, setChildCount] = React.useState(0);
   const [selectionStyle, setSelectionStyle] =
     React.useState<T.SelectionStyle | null>(null);
+  const elRef = React.useRef<HTMLElement | null>(null);
 
-  const handleMouseEnter = (e: React.MouseEvent) => {
+  const handleComponentMouseEnter = (e: React.MouseEvent) => {
+    if (mode !== "inspect") return;
+
     const el = e.currentTarget.firstChild as HTMLElement | undefined;
 
     if (!el) return;
@@ -37,7 +40,7 @@ const InspectedComponent = (props: T.Props) => {
     });
   };
 
-  const handleMouseLeave = () => {
+  const handleSelectionMouseLeave = () => {
     setSelectionStyle(null);
     setParentDisabled(false);
   };
@@ -50,12 +53,27 @@ const InspectedComponent = (props: T.Props) => {
     };
   }, [id, register, unregister, name]);
 
+  React.useEffect(() => {
+    if (mode !== "inspect") return;
+
+    const elChild = elRef.current?.firstElementChild;
+    const handleInspect = (e: Event) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setMode("active");
+    };
+
+    elChild?.addEventListener("click", handleInspect);
+    return () => elChild?.removeEventListener("click", handleInspect);
+  }, [mode, setMode]);
+
   return (
     <Context.Provider value={setDisabled}>
       <span
         className={s.el}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        ref={elRef}
+        onMouseEnter={handleComponentMouseEnter}
+        onMouseLeave={handleSelectionMouseLeave}
         data-nook-id={id}
         data-nook-active={!!selectionStyle}
       >

@@ -1,6 +1,11 @@
 .root {
-  position: fixed;
-  inset-block-end: var(--rs-unit-x2);
-  inset-inline-start: var(--rs-unit-x2);
-  width: 200px;
+  width: 260px;
+  height: 40px;
+  transition: var(--rs-duration-medium) var(--rs-easing-decelerate);
+  transition-property: width, height, inset;
+}
+
+.--active {
+  width: 600px;
+  height: 240px;
 }

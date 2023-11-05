@@ -12,6 +12,7 @@ export const useNook = () => React.useContext(Context);
 
 export const NookProvider = (props: T.Props) => {
   const { children } = props;
+  const [mode, setMode] = React.useState<T.Mode>("idle");
   const [components, setComponents] = React.useState<T.Context["components"]>(
     {},
   );
@@ -30,7 +31,9 @@ export const NookProvider = (props: T.Props) => {
   }, []);
 
   return (
-    <Context.Provider value={{ components, register, unregister }}>
+    <Context.Provider
+      value={{ components, register, unregister, mode, setMode }}
+    >
       {children}
       <Widget />
     </Context.Provider>

@@ -5,7 +5,14 @@
   transition-property: width, height, inset;
 }
 
-.--active {
+.--mode-active {
   width: 600px;
   height: 240px;
+}
+
+.--mode-library {
+  width: calc(100% - var(--rs-unit-x8));
+  height: calc(100% - var(--rs-unit-x8));
+  transform-origin: 0 100%;
+  transition-duration: var(--rs-duration-slow);
 }

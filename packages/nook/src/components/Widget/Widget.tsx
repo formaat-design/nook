@@ -8,62 +8,87 @@ import {
   Actionable,
   Icon,
   Tooltip,
-  useToggle,
+  Button,
   useHotkeys,
   classNames,
 } from "reshaped";
+import LibraryView from "../LibraryView";
 import { useNook } from "../NookProvider";
 import IconCrosshair from "../../icons/Crosshair";
 import s from "./Widget.module.css";
 
 const Widget = () => {
-  const nook = useNook();
-  const active = nook.mode === "active";
-  const rootClassNames = classNames(s.root, active && s["--active"]);
+  const { mode, setMode, components, selectedComponent } = useNook();
+  const active = mode === "active" || mode === "library";
+  const rootClassNames = classNames(s.root, mode && s[`--mode-${mode}`]);
 
   const handleInspectClick = React.useCallback(() => {
-    nook.setMode((prev) => {
-      return prev === "inspect" ? "idle" : "inspect";
+    setMode((prev) => {
+      if (prev === "inspect" || prev === "active") return "idle";
+      if (prev === "idle" || prev === "library") return "inspect";
+      return prev;
     });
-  }, [nook]);
+  }, [setMode]);
 
   useHotkeys(
     {
       "meta+i": handleInspectClick,
+      escape: () => setMode("idle"),
     },
-    [handleInspectClick],
+    [handleInspectClick, setMode],
   );
 
   return (
-    <View
-      backgroundColor="elevation-overlay"
-      borderColor="neutral-faded"
-      borderRadius="medium"
-      position="fixed"
-      className={rootClassNames}
-      insetStart={active ? 4 : 2}
-      insetBottom={active ? 4 : 2}
-    >
-      <View direction="row" gap={3} padding={2} align="center">
-        <View.Item grow>
-          <Text variant="caption-1" weight="medium">
-            Nook
-          </Text>
-        </View.Item>
-        <Tooltip text="⌘I" position="start">
-          {(attributes) => (
-            <Actionable onClick={handleInspectClick} attributes={attributes}>
-              <Icon
-                size={4}
-                svg={IconCrosshair}
-                color={nook.mode === "inspect" ? "primary" : "neutral"}
-              />
-            </Actionable>
+    <>
+      <View
+        backgroundColor="elevation-overlay"
+        borderColor="neutral-faded"
+        borderRadius="medium"
+        position="fixed"
+        zIndex={9999}
+        overflow="hidden"
+        className={rootClassNames}
+        insetStart={active ? 4 : 2}
+        insetBottom={active ? 4 : 2}
+      >
+        <View direction="row" gap={3} padding={2} align="center">
+          <View.Item grow>
+            <Text variant="caption-1" weight="medium">
+              Nook
+            </Text>
+          </View.Item>
+          {mode !== "library" && (
+            <Badge>{Object.keys(components).length} components</Badge>
           )}
-        </Tooltip>
-        <Badge>{Object.keys(nook.components).length} components</Badge>
+          <Tooltip text="⌘I" position="start">
+            {(attributes) => (
+              <Actionable onClick={handleInspectClick} attributes={attributes}>
+                <Icon
+                  size={4}
+                  svg={IconCrosshair}
+                  color={
+                    mode === "inspect" || mode === "active"
+                      ? "primary"
+                      : "neutral"
+                  }
+                />
+              </Actionable>
+            )}
+          </Tooltip>
+        </View>
+
+        {mode == "active" && (
+          <View padding={2}>
+            {selectedComponent && components[selectedComponent.id]?.name}
+            <Button onClick={() => setMode("library")} variant="faded">
+              Show library
+            </Button>
+          </View>
+        )}
+
+        {mode === "library" && <LibraryView />}
       </View>
-    </View>
+    </>
   );
 };
 

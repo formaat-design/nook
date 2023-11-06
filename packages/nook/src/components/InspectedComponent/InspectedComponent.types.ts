@@ -4,6 +4,7 @@ export type Props = {
   children: React.ReactNode;
   name: string;
   id: string;
+  onClick: () => void;
 };
 
 export type SelectionStyle = {

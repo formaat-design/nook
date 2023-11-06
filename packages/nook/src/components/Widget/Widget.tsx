@@ -14,6 +14,7 @@ import {
 } from "reshaped";
 import LibraryView from "../LibraryView";
 import { useNook } from "../NookProvider";
+import PropControl from "../PropControl";
 import IconCrosshair from "../../icons/Crosshair";
 import s from "./Widget.module.css";
 
@@ -78,11 +79,40 @@ const Widget = () => {
         </View>
 
         {mode == "active" && (
-          <View padding={2}>
+          <View padding={2} gap={2}>
             {selectedComponent && components[selectedComponent.id]?.name}
             <Button onClick={() => setMode("library")} variant="faded">
               Show library
             </Button>
+
+            <PropControl
+              type="string"
+              name="Very long label"
+              value="Hello world"
+              onChange={() => {}}
+            />
+
+            <PropControl
+              type="number"
+              name="min"
+              value={2}
+              onChange={() => {}}
+            />
+
+            <PropControl
+              type="boolean"
+              name="disabled"
+              value={true}
+              onChange={() => {}}
+            />
+
+            <PropControl
+              type="enum"
+              name="variant"
+              value="primary"
+              options={["primary", "secondary"]}
+              onChange={() => {}}
+            />
           </View>
         )}
 

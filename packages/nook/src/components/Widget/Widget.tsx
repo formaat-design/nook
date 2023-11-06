@@ -9,6 +9,7 @@ import {
   Icon,
   Tooltip,
   Button,
+  MenuItem,
   useHotkeys,
   classNames,
 } from "reshaped";
@@ -79,40 +80,47 @@ const Widget = () => {
         </View>
 
         {mode == "active" && (
-          <View padding={2} gap={2}>
-            {selectedComponent && components[selectedComponent.id]?.name}
-            <Button onClick={() => setMode("library")} variant="faded">
-              Show library
-            </Button>
+          <View padding={2} gap={4} direction="row">
+            <View width="200px" gap={2}>
+              {selectedComponent && <MenuItem roundedCorners selected color="neutral">{components[selectedComponent.id]?.name}</MenuItem>}
+              <View.Item>
 
-            <PropControl
-              type="string"
-              name="Very long label"
-              value="Hello world"
-              onChange={() => {}}
-            />
+              <Button onClick={() => setMode("library")} variant="faded">
+                Show library
+              </Button>
+              </View.Item>
+            </View>
 
-            <PropControl
-              type="number"
-              name="min"
-              value={2}
-              onChange={() => {}}
-            />
+            <View grow gap={2} grow>
+              <PropControl
+                type="string"
+                name="Very long label"
+                value="Hello world"
+                onChange={() => {}}
+              />
 
-            <PropControl
-              type="boolean"
-              name="disabled"
-              value={true}
-              onChange={() => {}}
-            />
+              <PropControl
+                type="number"
+                name="min"
+                value={2}
+                onChange={() => {}}
+              />
 
-            <PropControl
-              type="enum"
-              name="variant"
-              value="primary"
-              options={["primary", "secondary"]}
-              onChange={() => {}}
-            />
+              <PropControl
+                type="boolean"
+                name="disabled"
+                value={true}
+                onChange={() => {}}
+              />
+
+              <PropControl
+                type="enum"
+                name="variant"
+                value="primary"
+                options={["primary", "secondary"]}
+                onChange={() => {}}
+              />
+            </View.>
           </View>
         )}
 

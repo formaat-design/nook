@@ -105,3 +105,11 @@ a {
     color-scheme: dark;
   }
 }
+
+/* REMOVE ME LATER */
+code {
+  color: orange;
+  background: #563800;
+  padding: 1px 3px;
+  border-radius: 4px;
+}

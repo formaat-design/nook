@@ -3,13 +3,8 @@
 import React, { useEffect } from "react";
 import Widget from "../Widget";
 import type * as T from "./NookProvider.types";
-import mitt from "mitt";
-
-type Events = {
-  update: any;
-}
-
-export const eventBus = mitt<Events>();
+import { NookComponentsResults } from "../../utilities/emitter/emitter.types";
+import { eventsEmitter } from "../../utilities/emitter/emitter";
 
 const Context = React.createContext({
   components: {},
@@ -18,20 +13,47 @@ const Context = React.createContext({
 export const useNook = () => React.useContext(Context);
 
 const useNookAgent = () => {
-  useEffect(() => {
-    // Create WebSocket connection.
-    const socket = new WebSocket("ws://localhost:51311");
+  const [libraryComponents, setLibraryComponents] = React.useState<NookComponentsResults>({});
 
-    // Connection opened
+  useEffect(() => {
+    const socket = new WebSocket("ws://localhost:51311"); // not sure how we will know this port...
+
     socket.addEventListener("open", (event) => {
       socket.send("Hello Server!");
     });
 
-    // Listen for messages
     socket.addEventListener("message", (event) => {
-      eventBus.emit("update", JSON.parse(event.data));
+      eventsEmitter.emit("update", JSON.parse(event.data).payload as NookComponentsResults);
     });
   }, []);
+
+
+  React.useEffect(() => {
+    const data = sessionStorage.getItem("nook");
+
+    if (data) {
+      try {
+        setLibraryComponents(JSON.parse(data));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const update = (data: NookComponentsResults) => {
+      setLibraryComponents(data);
+      sessionStorage.setItem("nook", JSON.stringify(data));
+    };
+
+    eventsEmitter.on("update", update);
+
+    return () => {
+      eventsEmitter.off("update", update);
+    };
+  }, []);
+
+  return libraryComponents;
 }
 
 export const NookProvider = (props: T.Props) => {
@@ -56,12 +78,14 @@ export const NookProvider = (props: T.Props) => {
     });
   }, []);
 
-  useNookAgent();
+  // ideally we would create a new context for the library view, but for now we will just use the same one
+  const libraryComponents = useNookAgent();
 
   return (
     <Context.Provider
       value={{
         components,
+        libraryComponents,
         register,
         unregister,
         mode,

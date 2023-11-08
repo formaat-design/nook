@@ -1,8 +1,9 @@
+import * as React from "react";
 import nook from "nook";
 import Image from "next/image";
 import styles from "../app/page.module.css";
 
-const Logo = () => {
+const Logo: React.FC<{ color: 'red' | 'green' | 'orage' }> = () => {
   return (
     <Image
       className={styles.logo}

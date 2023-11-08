@@ -36,9 +36,12 @@ const useNookAgent = () => {
 
 export const NookProvider = (props: T.Props) => {
   const { children } = props;
+  const [mode, setMode] = React.useState<T.Mode>("idle");
   const [components, setComponents] = React.useState<T.Context["components"]>(
     {},
   );
+  const [selectedComponent, setSelectedComponent] =
+    React.useState<T.SelectedComponent | null>(null);
 
   const register: T.Context["register"] = React.useCallback((id, data) => {
     setComponents((prev) => ({ ...prev, [id]: data }));
@@ -56,7 +59,17 @@ export const NookProvider = (props: T.Props) => {
   useNookAgent();
 
   return (
-    <Context.Provider value={{ components, register, unregister }}>
+    <Context.Provider
+      value={{
+        components,
+        register,
+        unregister,
+        mode,
+        setMode,
+        selectedComponent,
+        setSelectedComponent,
+      }}
+    >
       {children}
       <Widget />
     </Context.Provider>

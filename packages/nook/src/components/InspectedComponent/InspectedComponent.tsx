@@ -11,15 +11,20 @@ const Context = React.createContext<(value: boolean) => void>(() => {});
 const useSetParentDisabled = () => React.useContext(Context);
 
 const InspectedComponent = (props: T.Props) => {
-  const { children, name, id } = props;
+  const { children, name, id, onClick } = props;
   const [disabled, setDisabled] = React.useState(false);
-  const { register, unregister } = useNook();
+  const { register, unregister, mode, setMode, selectedComponent } = useNook();
   const setParentDisabled = useSetParentDisabled();
   const [childCount, setChildCount] = React.useState(0);
   const [selectionStyle, setSelectionStyle] =
     React.useState<T.SelectionStyle | null>(null);
+  const elRef = React.useRef<HTMLElement | null>(null);
+  const selectedId = selectedComponent?.id;
+  const inspecting = mode === "inspect" || mode === "active";
 
-  const handleMouseEnter = (e: React.MouseEvent) => {
+  const handleComponentMouseEnter = (e: React.MouseEvent) => {
+    if (!inspecting) return;
+
     const el = e.currentTarget.firstChild as HTMLElement | undefined;
 
     if (!el) return;
@@ -37,25 +42,45 @@ const InspectedComponent = (props: T.Props) => {
     });
   };
 
-  const handleMouseLeave = () => {
-    setSelectionStyle(null);
+  const handleSelectionMouseLeave = () => {
     setParentDisabled(false);
+    if (id !== selectedId) {
+      setSelectionStyle(null);
+    }
   };
 
   React.useEffect(() => {
-    register(id, { name });
+    if (id === selectedId && inspecting) return;
+    setSelectionStyle(null);
+  }, [selectedId, id, inspecting]);
 
-    return () => {
-      unregister(id);
-    };
+  React.useEffect(() => {
+    register(id, { name });
+    return () => unregister(id);
   }, [id, register, unregister, name]);
+
+  React.useEffect(() => {
+    if (!inspecting) return;
+
+    const elChild = elRef.current?.firstElementChild;
+    const handleInspect = (e: Event) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setMode("active");
+      onClick();
+    };
+
+    elChild?.addEventListener("click", handleInspect);
+    return () => elChild?.removeEventListener("click", handleInspect);
+  }, [inspecting, setMode, onClick]);
 
   return (
     <Context.Provider value={setDisabled}>
       <span
         className={s.el}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        ref={elRef}
+        onMouseOver={handleComponentMouseEnter}
+        onMouseLeave={handleSelectionMouseLeave}
         data-nook-id={id}
         data-nook-active={!!selectionStyle}
       >
@@ -66,12 +91,12 @@ const InspectedComponent = (props: T.Props) => {
         !!selectionStyle &&
         typeof document !== "undefined" &&
         ReactDOM.createPortal(
-          <span className={s.selection} style={selectionStyle}>
+          <div className={s.selection} style={selectionStyle}>
             <span className={s.name}>
               {name}
               {!!childCount && ` + ${childCount} more`}
             </span>
-          </span>,
+          </div>,
           document.body,
         )}
     </Context.Provider>

@@ -1,59 +1,95 @@
 "use client";
 
 import React from "react";
-import s from "./Widget.module.css"
-import { View, Text, Loader } from "reshaped"
-import { eventBus } from "../NookProvider/NookProvider";
+import {
+  View,
+  Text,
+  Badge,
+  Actionable,
+  Icon,
+  Tooltip,
+  Button,
+  useHotkeys,
+  classNames,
+} from "reshaped";
+import LibraryView from "../LibraryView";
+import { useNook } from "../NookProvider";
+import IconCrosshair from "../../icons/Crosshair";
+import s from "./Widget.module.css";
 
 const Widget = () => {
-  const [components, setComponents] = React.useState<any>({});
+  const { mode, setMode, components, selectedComponent } = useNook();
+  const active = mode === "active" || mode === "library";
+  const rootClassNames = classNames(s.root, mode && s[`--mode-${mode}`]);
 
-  React.useEffect(() => {
-    const data = sessionStorage.getItem("nook");
+  const handleInspectClick = React.useCallback(() => {
+    setMode((prev) => {
+      if (prev === "inspect" || prev === "active") return "idle";
+      if (prev === "idle" || prev === "library") return "inspect";
+      return prev;
+    });
+  }, [setMode]);
 
-    if (data) {
-      try {
-        setComponents(JSON.parse(data));
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }, []);
-
-  React.useEffect(() => {
-    const update = (data: any) => {
-      setComponents(data.payload);
-      sessionStorage.setItem("nook", JSON.stringify(data.payload));
-    };
-
-    eventBus.on("update", update);
-
-    return () => {
-      eventBus.off("update", update);
-    };
-  }, []);
-
-  const componentsArray = Object.entries(components);
+  useHotkeys(
+    {
+      "meta+i": handleInspectClick,
+      escape: () => setMode("idle"),
+    },
+    [handleInspectClick, setMode],
+  );
 
   return (
-    <div className={s.root}>
-      <View backgroundColor="elevation-overlay" borderRadius="medium" padding={2} paddingInline={3} gap={3}>
-        {componentsArray.length === 0 && (
-          <Loader size='small' />
+    <>
+      <View
+        backgroundColor="elevation-overlay"
+        borderColor="neutral-faded"
+        borderRadius="medium"
+        position="fixed"
+        zIndex={9999}
+        overflow="hidden"
+        className={rootClassNames}
+        insetStart={active ? 4 : 2}
+        insetBottom={active ? 4 : 2}
+      >
+        <View direction="row" gap={3} padding={2} align="center">
+          <View.Item grow>
+            <Text variant="caption-1" weight="medium">
+              Nook
+            </Text>
+          </View.Item>
+          {mode !== "library" && (
+            <Badge>{Object.keys(components).length} components</Badge>
+          )}
+          <Tooltip text="⌘I" position="start">
+            {(attributes) => (
+              <Actionable onClick={handleInspectClick} attributes={attributes}>
+                <Icon
+                  size={4}
+                  svg={IconCrosshair}
+                  color={
+                    mode === "inspect" || mode === "active"
+                      ? "primary"
+                      : "neutral"
+                  }
+                />
+              </Actionable>
+            )}
+          </Tooltip>
+        </View>
+
+        {mode == "active" && (
+          <View padding={2}>
+            {selectedComponent && components[selectedComponent.id]?.name}
+            <Button onClick={() => setMode("library")} variant="faded">
+              Show library
+            </Button>
+          </View>
         )}
-        {
-          componentsArray.map(([k, v]) => {
-            return (
-              <div key={k}>
-                <Text variant="body-3" weight="medium">{v as string}</Text>
-                <Text variant="caption-1" weight="regular">{k as string}</Text>
-              </div>
-            )
-          })
-        }
+
+        {mode === "library" && <LibraryView />}
       </View>
-    </div>
-  )
-}
+    </>
+  );
+};
 
 export default Widget;

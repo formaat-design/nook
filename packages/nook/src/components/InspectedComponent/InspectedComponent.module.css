@@ -7,8 +7,9 @@
 
   box-shadow: 0 0 0 3px var(--nook-selection-color) inset;
   position: absolute;
-  pointer-events: none;
+  z-index: 9998;
   border-radius: 4px;
+  pointer-events: none;
 }
 
 .name {

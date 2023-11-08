@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "nook:watch": "node nook.config.js"
+    "nook:watch": "bun --bun nook-agent"
   },
   "dependencies": {
     "next": "14.0.0",

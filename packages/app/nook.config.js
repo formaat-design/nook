@@ -1,10 +1,4 @@
-import { nookAgent } from 'nook-agent';
-import path from 'path';
-import { fileURLToPath } from 'url';
+/** @type {import('nook-agent/dist/modules/agent/agent.types').NookAgentOptions} */
+const nookConfig = {}
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-nookAgent({
-  root: __dirname,
-});
+module.exports = nookConfig

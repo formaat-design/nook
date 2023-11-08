@@ -16,3 +16,6 @@ node_modules
 # vercel
 .vercel
 next-env.d.ts
+
+# nook
+/.nook

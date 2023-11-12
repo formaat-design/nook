@@ -13,6 +13,7 @@ import {
   useHotkeys,
   classNames,
 } from "reshaped";
+import meta from "nook-build/.nook/meta.json";
 import LibraryView from "../LibraryView";
 import { useNook } from "../NookProvider";
 import PropControls from "../PropControls";

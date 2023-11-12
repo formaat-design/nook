@@ -1,0 +1,23 @@
+{
+  "name": "nook-build",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "description": "Nook scripts responsible for scanning the project files and pre-compiling metadata about components using Nook",
+  "scripts": {
+    "build": "tsc"
+  },
+  "bin": "./dist/bin/index.js",
+  "dependencies": {
+    "@babel/parser": "7.23.3",
+    "@babel/traverse": "7.23.3",
+    "react-docgen": "7.0.0"
+  },
+  "devDependencies": {
+    "nook-types": "0.0.1",
+    "@babel/types": "7.23.3",
+    "@types/babel__traverse": "7.20.4"
+  }
+}

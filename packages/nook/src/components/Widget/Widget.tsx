@@ -15,7 +15,7 @@ import {
 } from "reshaped";
 import LibraryView from "../LibraryView";
 import { useNook } from "../NookProvider";
-import PropControl from "../PropControl";
+import PropControls from "../PropControls";
 import IconCrosshair from "../../icons/Crosshair";
 import s from "./Widget.module.css";
 
@@ -80,47 +80,122 @@ const Widget = () => {
         </View>
 
         {mode == "active" && (
-          <View padding={2} gap={4} direction="row">
-            <View width="200px" gap={2}>
-              {selectedComponent && <MenuItem roundedCorners selected color="neutral">{components[selectedComponent.id]?.name}</MenuItem>}
+          <View
+            padding={2}
+            gap={4}
+            direction="row"
+            align="stretch"
+            grow
+            overflow="hidden"
+          >
+            <View width="180px" gap={2}>
+              {selectedComponent && (
+                <MenuItem roundedCorners selected color="neutral">
+                  {components[selectedComponent.id]?.name}
+                </MenuItem>
+              )}
               <View.Item>
-
-              <Button onClick={() => setMode("library")} variant="faded">
-                Show library
-              </Button>
+                <Button onClick={() => setMode("library")} variant="faded">
+                  Show library
+                </Button>
               </View.Item>
             </View>
 
-            <View grow gap={2} grow>
-              <PropControl
-                type="string"
-                name="Very long label"
-                value="Hello world"
-                onChange={() => {}}
+            <View
+              grow
+              gap={2}
+              padding={3}
+              paddingEnd={1}
+              backgroundColor="elevation-base"
+              borderRadius="medium"
+              height="100%"
+              className={s.props}
+            >
+              <PropControls
+                values={{
+                  veryLongLabel: "Hello world",
+                  min: 2,
+                  disabled: true,
+                  data: {
+                    name: "Nook",
+                  },
+                  items: [
+                    { name: "Nook", type: "Text" },
+                    { name: "Storybook", type: "Number" },
+                  ],
+                  labels: ["foo", "bar", "baz"],
+                  variant: "primary",
+                  children: <>111</>,
+                }}
+                controls={[
+                  {
+                    type: "string",
+                    name: "veryLongLabel",
+                  },
+                  {
+                    type: "number",
+                    name: "min",
+                  },
+                  {
+                    type: "boolean",
+                    name: "disabled",
+                  },
+                  {
+                    type: "object",
+                    name: "data",
+                    fields: [
+                      {
+                        type: "string",
+                        name: "name",
+                      },
+                      {
+                        type: "string",
+                        name: "type",
+                      },
+                    ],
+                  },
+                  {
+                    type: "array",
+                    name: "items",
+                    item: {
+                      type: "object",
+                      name: "_",
+                      fields: [
+                        {
+                          type: "string",
+                          name: "name",
+                        },
+                        {
+                          type: "string",
+                          name: "type",
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    type: "array",
+                    name: "labels",
+                    item: {
+                      type: "string",
+                      name: "_",
+                    },
+                  },
+                  {
+                    type: "enum",
+                    name: "variant",
+                    options: ["primary", "secondary"],
+                  },
+                  {
+                    type: "slot",
+                    name: "children",
+                  },
+                  {
+                    type: "function",
+                    name: "onClick",
+                  },
+                ]}
               />
-
-              <PropControl
-                type="number"
-                name="min"
-                value={2}
-                onChange={() => {}}
-              />
-
-              <PropControl
-                type="boolean"
-                name="disabled"
-                value={true}
-                onChange={() => {}}
-              />
-
-              <PropControl
-                type="enum"
-                name="variant"
-                value="primary"
-                options={["primary", "secondary"]}
-                onChange={() => {}}
-              />
-            </View.>
+            </View>
           </View>
         )}
 

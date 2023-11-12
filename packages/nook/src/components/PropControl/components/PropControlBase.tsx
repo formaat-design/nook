@@ -2,19 +2,24 @@ import { View, Text } from "reshaped";
 import type * as T from "../PropControl.types";
 
 const PropControlBase = (
-  props: T.BaseControlProps & { children: React.ReactNode },
+  props: T.BaseControlProps & {
+    children: React.ReactNode;
+  },
 ) => {
-  const { name, children } = props;
+  const { name, children, level = 0 } = props;
+  // Level is calculated separately from parents since Array control works different from other controls
+  // Instead of allowing its child control to handle the parent – it adds its name + child index and ignores the item name field
+  const width = 100 - 8 * level;
 
   return (
     <Text variant="caption-1">
       <View as="label" direction="row" gap={2} align="center">
-        <View width="80px">
-          <Text maxLines={1}>
-            {name.charAt(0).toUpperCase() + name.slice(1)}
-          </Text>
+        <View width={`${width}px`}>
+          <Text maxLines={1}>{name}</Text>
         </View>
-        <View.Item grow>{children}</View.Item>
+        <View grow justify="center">
+          {children}
+        </View>
       </View>
     </Text>
   );

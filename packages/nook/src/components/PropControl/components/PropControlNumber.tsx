@@ -6,14 +6,14 @@ import React from "react";
 import s from "../PropControl.module.css";
 
 const PropControlNumber = (props: T.NumberControlProps) => {
-  const { name, value, onChange } = props;
+  const { name, value, onChange, parents, level } = props;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange({ name, value: +e.target.value });
+    onChange?.({ name, value: +e.target.value, parents });
   };
 
   return (
-    <PropControlBase name={name}>
+    <PropControlBase name={name} level={level}>
       <input
         type="number"
         className={s.input}

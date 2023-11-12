@@ -6,14 +6,14 @@ import type * as T from "../PropControl.types";
 import s from "../PropControl.module.css";
 
 const PropControlEnum = (props: T.EnumControlProps) => {
-  const { name, value, onChange, options } = props;
+  const { name, value, onChange, options, parents, level } = props;
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onChange({ name, value: e.target.value });
+    onChange?.({ name, value: e.target.value, parents });
   };
 
   return (
-    <PropControlBase name={name}>
+    <PropControlBase name={name} level={level}>
       <select onChange={handleChange} value={value} className={s.input}>
         {options.map((option) => (
           <option key={option}>{option}</option>

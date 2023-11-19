@@ -13,7 +13,8 @@
   "dependencies": {
     "@babel/parser": "7.23.3",
     "@babel/traverse": "7.23.3",
-    "react-docgen": "7.0.0"
+    "react-docgen": "7.0.0",
+    "glob": "10.3.10"
   },
   "devDependencies": {
     "nook-types": "0.0.1",

@@ -1,16 +1,24 @@
 import path from "node:path";
 import fs from "node:fs";
-import findNookInFile from "./utilities/findNookInFile.js";
+import { glob } from "glob";
+import getComponentMeta from "./utilities/getComponentMeta.js";
 import getCurrentDirectory from "./utilities/getCurrentDirectory.js";
 import { NOOK_META_FILE_NAME, NOOK_META_FILE_DIR } from "./constants.js";
 
+const processDir = process.cwd();
 const currentDir = getCurrentDirectory(import.meta.url);
-const rootDir = path.resolve(currentDir, "..");
-const target = path.resolve(rootDir, "../app/src/components/Button.tsx");
+const packageRootDir = path.resolve(currentDir, "..");
+const scannedFiles = await glob(`${processDir}/**/*.{js,jsx,ts,tsx}`, {
+  ignore: "node_modules/**",
+});
 
-const meta = findNookInFile(target);
+const meta = scannedFiles.reduce((meta, filePath) => {
+  const fileMeta = getComponentMeta(filePath);
+  return fileMeta ? { ...meta, ...fileMeta } : meta;
+}, {});
+
 const metaFilePath = path.resolve(
-  rootDir,
+  packageRootDir,
   NOOK_META_FILE_DIR,
   NOOK_META_FILE_NAME,
 );

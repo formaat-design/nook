@@ -17,6 +17,7 @@
     "react-dom": "^18"
   },
   "dependencies": {
+    "react-markdown": "^9.0.0",
     "reshaped": "2.5.3"
   }
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import { NookComponentsResults } from "../../utilities/emitter/emitter.types";
 
 export type Mode = "idle" | "inspect" | "active" | "library";
 
@@ -11,6 +12,7 @@ export type SelectedComponent = { id: string; props: Record<string, unknown> };
 
 export type Context = {
   components: Record<string, ComponentData>;
+  libraryComponents: NookComponentsResults;
   register: (id: string, data: ComponentData) => void;
   unregister: (id: string) => void;
   mode: Mode;

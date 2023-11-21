@@ -1,0 +1,1 @@
+- Check if removing folder trigger file unlink event

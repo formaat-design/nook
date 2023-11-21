@@ -1,0 +1,28 @@
+{
+  "name": "nook-agent",
+  "version": "0.0.1",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/bin/index.js",
+  "types": "./dist/index.d.ts",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "bin": "./dist/bin/index.js",
+  "dependencies": {
+    "@babel/parser": "^7.23.0",
+    "@babel/traverse": "^7.23.2",
+    "chokidar": "^3.5.3",
+    "picomatch": "^3.0.1",
+    "react-docgen-typescript": "^2.2.2",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@babel/types": "^7.23.0",
+    "@types/babel__traverse": "^7.20.3",
+    "@types/picomatch": "^2.3.2",
+    "@types/ws": "^8.5.8"
+  }
+}

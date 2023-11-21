@@ -58,7 +58,7 @@ const useNookAgent = () => {
 
 export const NookProvider = (props: T.Props) => {
   const { children } = props;
-  const [mode, setMode] = React.useState<T.Mode>("idle");
+  const [mode, setMode] = React.useState<T.Mode>("active");
   const [components, setComponents] = React.useState<T.Context["components"]>(
     {},
   );

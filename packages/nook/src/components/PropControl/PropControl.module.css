@@ -1,0 +1,40 @@
+.input {
+  background: transparent;
+  border: transparent;
+  padding: var(--rs-unit-x1);
+  border-radius: var(--rs-unit-radius-small);
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: calc(var(--rs-unit-x1) * -1);
+}
+
+.input:focus,
+.input:active {
+  outline: 0;
+  box-shadow: 0 0 0 2px var(--rs-color-border-primary);
+}
+
+.boolean {
+  border-radius: var(--rs-unit-radius-small);
+  padding: var(--rs-unit-x1);
+  margin: calc(var(--rs-unit-x1) * -1);
+}
+
+.objectFields {
+  padding-inline-start: var(--rs-unit-x2);
+}
+
+.objectFields:after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: var(--rs-unit-x2);
+  inset-block-end: 0;
+  width: 2px;
+  background: var(--rs-color-border-neutral-faded);
+  border-radius: 999px;
+}

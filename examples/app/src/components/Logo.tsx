@@ -2,11 +2,16 @@ import nook from "nook";
 import Image from "next/image";
 import styles from "../app/page.module.css";
 
-const Logo = () => {
+export type Props = {
+  src?: string;
+  foo2?: number;
+};
+
+const Logo = (props: Props) => {
   return (
     <Image
       className={styles.logo}
-      src="/next.svg"
+      src={props.src || "/next.svg"}
       alt="Next.js Logo"
       width={180}
       height={37}

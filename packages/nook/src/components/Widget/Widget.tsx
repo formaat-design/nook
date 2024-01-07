@@ -25,6 +25,8 @@ const Widget = () => {
   const active = mode === "active" || mode === "library";
   const rootClassNames = classNames(s.root, mode && s[`--mode-${mode}`]);
 
+  console.log({ meta });
+
   const handleInspectClick = React.useCallback(() => {
     setMode((prev) => {
       if (prev === "inspect" || prev === "active") return "idle";

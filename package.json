@@ -3,11 +3,14 @@
   "version": "0.0.1",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "integrations/*",
+    "examples/*"
   ],
   "scripts": {
     "build": "lerna run build --no-private",
-    "dev": "open \"http://localhost:3000\" && lerna run dev"
+    "app:dev": "open \"http://localhost:3000\" && lerna run dev",
+    "app:build": "lerna run build --scope nook-app"
   },
   "devDependencies": {
     "@types/node": "^20",

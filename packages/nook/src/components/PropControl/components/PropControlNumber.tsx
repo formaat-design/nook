@@ -1,6 +1,7 @@
+"use client";
+
 import PropControlBase from "./PropControlBase";
 import type * as T from "../PropControl.types";
-("use client");
 
 import React from "react";
 import s from "../PropControl.module.css";

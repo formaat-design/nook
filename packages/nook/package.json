@@ -4,6 +4,7 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "type": "module",
   "scripts": {
     "build:css": "rsync -a src/* dist/ --exclude='*.tsx' --exclude='*.ts'",
     "watch:css": "chokidar \"src/**/*.css\" -c \"yarn build:css\" --initial true",
@@ -17,6 +18,10 @@
     "react-dom": "^18"
   },
   "dependencies": {
-    "reshaped": "2.5.3"
+    "reshaped": "2.5.3",
+    "nook-build": "0.0.1"
+  },
+  "devDependencies": {
+    "nook-types": "0.0.1"
   }
 }

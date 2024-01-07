@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2015",
     "skipLibCheck": true,
     "strict": true,
     "esModuleInterop": true,
@@ -10,7 +10,7 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "declaration": true,
-    "incremental": true,
+    "incremental": true
   },
   "exclude": ["node_modules"]
 }

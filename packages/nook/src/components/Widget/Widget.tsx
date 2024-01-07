@@ -13,6 +13,7 @@ import {
   useHotkeys,
   classNames,
 } from "reshaped";
+import meta from "nook-build/.nook/meta.json";
 import LibraryView from "../LibraryView";
 import { useNook } from "../NookProvider";
 import PropControls from "../PropControls";
@@ -23,6 +24,8 @@ const Widget = () => {
   const { mode, setMode, components, selectedComponent } = useNook();
   const active = mode === "active" || mode === "library";
   const rootClassNames = classNames(s.root, mode && s[`--mode-${mode}`]);
+
+  console.log({ meta });
 
   const handleInspectClick = React.useCallback(() => {
     setMode((prev) => {

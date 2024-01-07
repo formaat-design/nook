@@ -1,0 +1,21 @@
+{
+  "name": "nook-integration-webpack",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "description": "Nook integration with Webpack",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "nook-build": "0.0.1"
+  },
+  "peerDependencies": {
+    "webpack": "^5"
+  },
+  "devDependencies": {
+    "webpack": "5.89.0"
+  }
+}

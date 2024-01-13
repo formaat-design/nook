@@ -19,7 +19,7 @@ const findNookInFile = (filePath: string) => {
   const [data] = getComponentProps(filePath);
 
   if (data.displayName) {
-    nookMeta[data.displayName].properties = data.props || {};
+    nookMeta[data.displayName].props = data.props || {};
   }
 
   return nookMeta;

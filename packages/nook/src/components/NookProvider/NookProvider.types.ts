@@ -1,4 +1,5 @@
-import React from "react";
+import type React from "react";
+import type { RuntimeMetadata, RuntimeComponentMetadata } from "nook-types";
 
 export type Mode = "idle" | "inspect" | "active" | "library";
 
@@ -6,17 +7,18 @@ export type Props = {
   children: React.ReactNode;
 };
 
-export type ComponentData = { name: string };
-export type SelectedComponent = { id: string; props: Record<string, unknown> };
-
 export type Context = {
-  components: Record<string, ComponentData>;
-  register: (id: string, data: ComponentData) => void;
-  unregister: (id: string) => void;
+  components: RuntimeMetadata["components"];
+  register: (data: Omit<RuntimeComponentMetadata, "overrides">) => void;
+  unregister: (id: RuntimeComponentMetadata["id"]) => void;
   mode: Mode;
   setMode: React.Dispatch<React.SetStateAction<Mode>>;
-  selectedComponent: SelectedComponent | null;
-  setSelectedComponent: React.Dispatch<
-    React.SetStateAction<SelectedComponent | null>
+  selectedComponentId: RuntimeComponentMetadata["id"] | null;
+  setSelectedComponentId: React.Dispatch<
+    React.SetStateAction<RuntimeComponentMetadata["id"] | null>
   >;
+  updateOverrides: (
+    id: RuntimeComponentMetadata["id"],
+    overrides: RuntimeComponentMetadata["overrides"],
+  ) => void;
 };

@@ -1,6 +1,27 @@
 import type { Documentation } from "react-docgen";
 
-export type ComponentData = {
+// Data saved to the file during the build
+export type BuildtimeComponentMetadata = {
   name: string;
-  properties?: Documentation["props"];
+  props: Documentation["props"];
+};
+
+export type BuildtimeMetadata = {
+  components: Record<
+    BuildtimeComponentMetadata["name"],
+    BuildtimeComponentMetadata
+  >;
+};
+
+// Data used in the global React context
+export type RuntimeComponentMetadata = {
+  id: string;
+  name: string;
+  props: Record<string, unknown>;
+  overrides: Record<string, unknown>;
+};
+
+export type RuntimeMetadata = {
+  // Saving data per rendered component instance
+  components: Record<RuntimeComponentMetadata["id"], RuntimeComponentMetadata>;
 };

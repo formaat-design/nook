@@ -5,6 +5,7 @@ import styles from "../app/page.module.css";
 export type Props = {
   src?: string;
   count?: number;
+  selected?: boolean;
 };
 
 const Logo = (props: Props) => {
@@ -17,6 +18,7 @@ const Logo = (props: Props) => {
         width={180}
         height={37}
         priority
+        objectFit="cover"
       />
       {props.count ? `Count: ${props.count}` : null}
     </div>

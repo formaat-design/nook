@@ -31,8 +31,6 @@ const Widget = () => {
     ? components[selectedComponentId]
     : null;
 
-  console.log({ components });
-
   const handleInspectClick = React.useCallback(() => {
     setMode((prev) => {
       if (prev === "inspect" || prev === "active") return "idle";

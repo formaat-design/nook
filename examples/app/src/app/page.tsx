@@ -19,7 +19,7 @@ export default function Home() {
             </p>
           </div>
 
-          <Button>Hello</Button>
+          <Button color="neutral">Hello</Button>
 
           <div className={styles.center}>
             <Logo />

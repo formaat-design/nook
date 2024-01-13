@@ -19,9 +19,7 @@
   },
   "dependencies": {
     "reshaped": "2.5.3",
-    "nook-build": "0.0.1"
-  },
-  "devDependencies": {
+    "nook-build": "0.0.1",
     "nook-types": "0.0.1"
   }
 }

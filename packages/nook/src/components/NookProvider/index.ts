@@ -1,5 +1,2 @@
 export { default, useNook } from "./NookProvider";
-export type {
-  Context as NookContext,
-  ComponentData as NookComponentData,
-} from "./NookProvider.types";
+export type { Context as NookContext } from "./NookProvider.types";

@@ -1,4 +1,4 @@
-import type { ComponentData } from "nook-types";
+import type { BuildtimeMetadata } from "nook-types";
 import traverse from "@babel/traverse";
 import type { CallExpression, Node } from "@babel/types";
 import { NOOK_FUNCTION_NAME } from "../constants.js";
@@ -10,7 +10,7 @@ const isNookFunctionCall = (node: CallExpression) => {
 };
 
 const findNookInAstNode = (astNode: Node) => {
-  const components: Record<string, ComponentData> = {};
+  const components: BuildtimeMetadata["components"] = {};
 
   traverse.default(astNode, {
     CallExpression: (p) => {
@@ -19,7 +19,7 @@ const findNookInAstNode = (astNode: Node) => {
       if (isNookFunctionCall(node)) {
         for (const arg of node.arguments) {
           if (arg.type === "Identifier") {
-            components[arg.name] = { name: arg.name };
+            components[arg.name] = { name: arg.name, props: {} };
           }
         }
       }

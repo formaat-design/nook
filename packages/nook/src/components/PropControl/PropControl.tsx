@@ -6,7 +6,7 @@ import PropControlSlot from "./components/PropControlSlot";
 import PropControlObject from "./components/PropControlObject";
 import PropControlArray from "./components/PropControlArray";
 import PropControlFunction from "./components/PropControlFunction";
-import type * as T from "./PropControl.types";
+import type * as T from "../../types/controls";
 
 const PropControl = (props: T.Props) => {
   switch (props.type) {

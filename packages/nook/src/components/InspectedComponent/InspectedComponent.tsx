@@ -13,13 +13,12 @@ const useSetParentDisabled = () => React.useContext(Context);
 const InspectedComponent = (props: T.Props) => {
   const { children, name, id, onClick } = props;
   const [disabled, setDisabled] = React.useState(false);
-  const { register, unregister, mode, setMode, selectedComponent } = useNook();
+  const { mode, setMode, selectedComponentId } = useNook();
   const setParentDisabled = useSetParentDisabled();
   const [childCount, setChildCount] = React.useState(0);
   const [selectionStyle, setSelectionStyle] =
     React.useState<T.SelectionStyle | null>(null);
   const elRef = React.useRef<HTMLElement | null>(null);
-  const selectedId = selectedComponent?.id;
   const inspecting = mode === "inspect" || mode === "active";
 
   const handleComponentMouseEnter = (e: React.MouseEvent) => {
@@ -44,20 +43,15 @@ const InspectedComponent = (props: T.Props) => {
 
   const handleSelectionMouseLeave = () => {
     setParentDisabled(false);
-    if (id !== selectedId) {
+    if (id !== selectedComponentId) {
       setSelectionStyle(null);
     }
   };
 
   React.useEffect(() => {
-    if (id === selectedId && inspecting) return;
+    if (id === selectedComponentId && inspecting) return;
     setSelectionStyle(null);
-  }, [selectedId, id, inspecting]);
-
-  React.useEffect(() => {
-    register(id, { name });
-    return () => unregister(id);
-  }, [id, register, unregister, name]);
+  }, [selectedComponentId, id, inspecting]);
 
   React.useEffect(() => {
     if (!inspecting) return;

@@ -13,19 +13,25 @@ import {
   useHotkeys,
   classNames,
 } from "reshaped";
-import meta from "nook-build/.nook/meta.json";
+import type { BuildtimeMetadata } from "nook-types";
+import _meta from "nook-build/.nook/meta.json";
 import LibraryView from "../LibraryView";
 import { useNook } from "../NookProvider";
 import PropControls from "../PropControls";
 import IconCrosshair from "../../icons/Crosshair";
+import { convertProperties } from "../../utilities/docgen";
 import s from "./Widget.module.css";
 
 const Widget = () => {
-  const { mode, setMode, components, selectedComponent } = useNook();
+  const { mode, setMode, components, selectedComponentId } = useNook();
   const active = mode === "active" || mode === "library";
   const rootClassNames = classNames(s.root, mode && s[`--mode-${mode}`]);
+  const meta = _meta as BuildtimeMetadata;
+  const selectedComponent = selectedComponentId
+    ? components[selectedComponentId]
+    : null;
 
-  console.log({ meta });
+  console.log({ components });
 
   const handleInspectClick = React.useCallback(() => {
     setMode((prev) => {
@@ -92,9 +98,9 @@ const Widget = () => {
             overflow="hidden"
           >
             <View width="180px" gap={2}>
-              {selectedComponent && (
+              {selectedComponentId && (
                 <MenuItem roundedCorners selected color="neutral">
-                  {components[selectedComponent.id]?.name}
+                  {selectedComponent?.name}
                 </MenuItem>
               )}
               <View.Item>
@@ -114,90 +120,33 @@ const Widget = () => {
               height="100%"
               className={s.props}
             >
-              <PropControls
-                values={{
-                  veryLongLabel: "Hello world",
-                  min: 2,
-                  disabled: true,
-                  data: {
-                    name: "Nook",
-                  },
-                  items: [
-                    { name: "Nook", type: "Text" },
-                    { name: "Storybook", type: "Number" },
-                  ],
-                  labels: ["foo", "bar", "baz"],
-                  variant: "primary",
-                  children: <>111</>,
-                }}
-                controls={[
-                  {
-                    type: "string",
-                    name: "veryLongLabel",
-                  },
-                  {
-                    type: "number",
-                    name: "min",
-                  },
-                  {
-                    type: "boolean",
-                    name: "disabled",
-                  },
-                  {
-                    type: "object",
-                    name: "data",
-                    fields: [
-                      {
-                        type: "string",
-                        name: "name",
-                      },
-                      {
-                        type: "string",
-                        name: "type",
-                      },
-                    ],
-                  },
-                  {
-                    type: "array",
-                    name: "items",
-                    item: {
-                      type: "object",
-                      name: "_",
-                      fields: [
-                        {
-                          type: "string",
-                          name: "name",
-                        },
-                        {
-                          type: "string",
-                          name: "type",
-                        },
-                      ],
-                    },
-                  },
-                  {
-                    type: "array",
-                    name: "labels",
-                    item: {
-                      type: "string",
-                      name: "_",
-                    },
-                  },
-                  {
-                    type: "enum",
-                    name: "variant",
-                    options: ["primary", "secondary"],
-                  },
-                  {
-                    type: "slot",
-                    name: "children",
-                  },
-                  {
-                    type: "function",
-                    name: "onClick",
-                  },
-                ]}
-              />
+              {selectedComponent && (
+                <PropControls
+                  id={selectedComponent.id}
+                  // values={{
+                  //   veryLongLabel: "Hello world",
+                  //   min: 2,
+                  //   disabled: true,
+                  //   data: {
+                  //     name: "Nook",
+                  //   },
+                  //   items: [
+                  //     { name: "Nook", type: "Text" },
+                  //     { name: "Storybook", type: "Number" },
+                  //   ],
+                  //   labels: ["foo", "bar", "baz"],
+                  //   variant: "primary",
+                  //   children: <>111</>,
+                  // }}
+                  values={{
+                    ...selectedComponent.props,
+                    ...selectedComponent.overrides,
+                  }}
+                  controls={convertProperties(
+                    meta.components[selectedComponent.name]?.props,
+                  )}
+                />
+              )}
             </View>
           </View>
         )}

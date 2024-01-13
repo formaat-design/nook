@@ -19,7 +19,7 @@ const PropControlNumber = (props: T.NumberControlProps) => {
         type="number"
         className={s.input}
         name={name}
-        value={value}
+        value={value || ""}
         onChange={handleChange}
       />
     </PropControlBase>
